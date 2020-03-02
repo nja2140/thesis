@@ -1,0 +1,17 @@
+---
+title: "Correlation Matrix"
+Author: Naina Ahuja
+Output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(tidyverse)
+library(Hmisc)
+```
+
+```{r}
+rcorr(as.matrix(neighbor_data))
+```
+

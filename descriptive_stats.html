@@ -370,7 +370,15 @@ summary {
 <pre class="r"><code>neighbor_data = 
   read_excel(&quot;./Data/temp_data.xlsx&quot;, sheet = 1) %&gt;%
   janitor::clean_names() %&gt;% 
-  mutate(median_age = as.numeric(median_age))</code></pre>
+  mutate(median_age = as.numeric(median_age),
+         percent_female = as.numeric(percent_female),
+         percent_public_source = as.numeric(percent_public_source),
+         percent_private_toilet = as.numeric(percent_private_toilet),
+         percent_employed = as.numeric(percent_employed),
+         percent_without_hs_education = as.numeric(percent_without_hs_education),
+         percent_marital_status = as.numeric(percent_marital_status),
+         percent_caste = as.numeric(percent_caste)
+         )</code></pre>
 <pre><code>## New names:
 ## * `` -&gt; ...1
 ## * `` -&gt; ...18</code></pre>

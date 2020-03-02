@@ -8,13 +8,22 @@ Output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 library(tidyverse)
+library(dplyr)
 ```
 Loading the data
 ```{r}
 neighbor_data = 
   read_excel("./Data/temp_data.xlsx", sheet = 1) %>%
   janitor::clean_names() %>% 
-  mutate(median_age = as.numeric(median_age))
+  mutate(median_age = as.numeric(median_age),
+         percent_female = as.numeric(percent_female),
+         percent_public_source = as.numeric(percent_public_source),
+         percent_private_toilet = as.numeric(percent_private_toilet),
+         percent_employed = as.numeric(percent_employed),
+         percent_without_hs_education = as.numeric(percent_without_hs_education),
+         percent_marital_status = as.numeric(percent_marital_status),
+         percent_caste = as.numeric(percent_caste)
+         )
 ```
 Creating table
 ```{r}
