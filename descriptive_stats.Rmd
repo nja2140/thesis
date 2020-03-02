@@ -1,0 +1,25 @@
+---
+title: "Descriptive Stats"
+Author: Naina Ahuja
+Output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(tidyverse)
+```
+Loading the data
+```{r}
+neighbor_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 1) %>%
+  janitor::clean_names() %>% 
+  mutate(median_age = as.numeric(median_age))
+```
+Creating table
+```{r}
+descriptive_stats=neighbor_data %>% 
+  mean(median_age)
+```
+
+
