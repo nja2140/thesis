@@ -23,7 +23,7 @@ neighbor_data =
          percent_without_hs_education = as.numeric(percent_without_hs_education),
          percent_marital_status = as.numeric(percent_marital_status),
          percent_caste = as.numeric(percent_caste)
-         )
+         ) 
 ```
 Creating table
 ```{r}
