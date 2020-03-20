@@ -10,25 +10,58 @@ library(readxl)
 library(tidyverse)
 library(dplyr)
 ```
-Loading the data
+Loading and cleaning the data
 ```{r}
-neighbor_data = 
-  read_excel("./Data/temp_data.xlsx", sheet = 1) %>%
+outcome_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 3) %>%
+  separate(sbp, into = c("sbp", "sbp_sd")) %>% 
+  separate(dbp, into = c("dbp", "dbp_sd")) %>% 
+  separate(  bmi, into = c("bmi", "bmi_sd")) %>% 
   janitor::clean_names() %>% 
-  mutate(median_age = as.numeric(median_age),
-         percent_female = as.numeric(percent_female),
-         percent_public_source = as.numeric(percent_public_source),
-         percent_private_toilet = as.numeric(percent_private_toilet),
-         percent_employed = as.numeric(percent_employed),
-         percent_without_hs_education = as.numeric(percent_without_hs_education),
-         percent_marital_status = as.numeric(percent_marital_status),
-         percent_caste = as.numeric(percent_caste)
+  mutate(ceb = as.numeric(ceb),
+         fbg = as.numeric(fbg),
+         fbg_sd = as.numeric(fbg_sd),
+         sbp = as.numeric(sbp),
+         sbp_sd = as.numeric(sbp_sd),
+         dbp = as.numeric(dbp),
+         dbp_sd = as.numeric(dbp_sd),
+         bmi = as.numeric(bmi),
+         bmi_sd = as.numeric(bmi_sd),
+         hypertension = as.numeric(hypertension),
+         diabetes = as.numeric(diabetes)
          ) 
+outcome_data
 ```
-Creating table
+
+Looking at outcomes distribution- fasting blood glucose
 ```{r}
-descriptive_stats=neighbor_data %>% 
-  mean(median_age)
+fbg_distribution = 
+  ggplot(outcome_data, aes(x=ceb, y = fbg)) +
+  geom_smooth()
+
+fbg_distribution
 ```
+Looking at outcomes distribution- sbp
+```{r}
+sbp_distribution = 
+  ggplot(outcome_data, aes(x=ceb, y = sbp)) +
+  geom_smooth()
 
+sbp_distribution
+```
+Looking at outcomes distribution- dbp
+```{r}
+dbp_distribution = 
+  ggplot(outcome_data, aes(x=ceb, y = dbp)) +
+  geom_smooth()
 
+dbp_distribution
+```
+Looking at outcomes distribution- bmi
+```{r}
+bmi_distribution = 
+  ggplot(outcome_data, aes(x=ceb, y = bmi)) +
+  geom_smooth()
+
+bmi_distribution
+```
