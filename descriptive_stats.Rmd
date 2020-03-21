@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 library(tidyverse)
 library(dplyr)
+library(ggplot2)
 ```
 Loading and cleaning the data
 ```{r}
@@ -36,32 +37,35 @@ outcome_data
 Looking at outcomes distribution- fasting blood glucose
 ```{r}
 fbg_distribution = 
-  ggplot(outcome_data, aes(x=ceb, y = fbg)) +
-  geom_smooth()
+  ggplot(outcome_data, aes(x=fbg)) +
+  geom_histogram(color = "black") 
 
 fbg_distribution
 ```
+
 Looking at outcomes distribution- sbp
 ```{r}
 sbp_distribution = 
-  ggplot(outcome_data, aes(x=ceb, y = sbp)) +
-  geom_smooth()
+  ggplot(outcome_data, aes(x=sbp)) +
+  geom_histogram(color = "black")
 
 sbp_distribution
 ```
+
 Looking at outcomes distribution- dbp
 ```{r}
 dbp_distribution = 
-  ggplot(outcome_data, aes(x=ceb, y = dbp)) +
-  geom_smooth()
+  ggplot(outcome_data, aes(x= dbp)) +
+  geom_histogram(color = "black")
 
 dbp_distribution
 ```
+
 Looking at outcomes distribution- bmi
 ```{r}
 bmi_distribution = 
-  ggplot(outcome_data, aes(x=ceb, y = bmi)) +
-  geom_smooth()
+  ggplot(outcome_data, aes(x= bmi)) +
+  geom_histogram(color = "black")
 
 bmi_distribution
 ```
