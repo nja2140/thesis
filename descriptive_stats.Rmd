@@ -4,15 +4,15 @@ Author: Naina Ahuja
 Output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=FALSE, message=FALSE, warnings=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
 library(readxl)
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
 ```
 Loading and cleaning the data
-```{r}
+```{r message=FALSE, warning=FALSE}
 outcome_data = 
   read_excel("./Data/temp_data.xlsx", sheet = 3) %>%
   separate(sbp, into = c("sbp", "sbp_sd")) %>% 
@@ -35,7 +35,7 @@ outcome_data
 ```
 
 Looking at outcomes distribution- fasting blood glucose
-```{r}
+```{r message=FALSE, warning=FALSE}
 fbg_distribution = 
   ggplot(outcome_data, aes(x=fbg)) +
   geom_histogram(color = "black") 
@@ -44,7 +44,7 @@ fbg_distribution
 ```
 
 Looking at outcomes distribution- sbp
-```{r}
+```{r message= FALSE, warning=FALSE}
 sbp_distribution = 
   ggplot(outcome_data, aes(x=sbp)) +
   geom_histogram(color = "black")
@@ -53,7 +53,7 @@ sbp_distribution
 ```
 
 Looking at outcomes distribution- dbp
-```{r}
+```{r message= FALSE, warning=FALSE}
 dbp_distribution = 
   ggplot(outcome_data, aes(x= dbp)) +
   geom_histogram(color = "black")
@@ -62,7 +62,7 @@ dbp_distribution
 ```
 
 Looking at outcomes distribution- bmi
-```{r}
+```{r message = FALSE, warning=FALSE}
 bmi_distribution = 
   ggplot(outcome_data, aes(x= bmi)) +
   geom_histogram(color = "black")
