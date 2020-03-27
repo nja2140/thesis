@@ -1,7 +1,7 @@
 ---
 title: "Descriptive Stats"
-Author: Naina Ahuja
 Output: github_document
+Author: Naina Ahuja
 ---
 
 ```{r setup, include=FALSE, message=FALSE, warnings=FALSE}
