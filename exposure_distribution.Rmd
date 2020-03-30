@@ -1,0 +1,42 @@
+---
+title: "Exposure Distribution"
+Author: Naina Ahuja
+Output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(tidyverse)
+library(dplyr)
+library(Hmisc)
+library(psych)
+```
+Loading in the data
+```{r}
+neighbor_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 2) %>%
+  janitor::clean_names() %>% 
+  select(-c(x1)) %>% 
+    mutate(ceb = as.numeric(ceb),
+           median_age = as.numeric(median_age),
+           percent_female = as.numeric(percent_female),
+           fuel_used_for_cooking_percent_wood_dung = as.numeric(fuel_used_for_cooking_percent_wood_dung),
+           percent_public_source = as.numeric(percent_public_source),
+           percent_private_toilet = as.numeric(percent_private_toilet),
+           percent_employed = as.numeric(percent_employed),
+           percent_without_hs_education = as.numeric(percent_without_hs_education),
+           percent_marital_status = as.numeric(percent_marital_status),
+           percent_caste = as.numeric(percent_caste)
+         ) 
+
+head(neighbor_data)
+```
+
+```{r message= FALSE, warning=FALSE}
+age_distribution = 
+  ggplot(neighbor_data, aes(x= median_age)) +
+  geom_histogram(color = "black")
+
+age_distribution
+```
