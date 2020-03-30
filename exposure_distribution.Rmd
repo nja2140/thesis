@@ -40,3 +40,54 @@ age_distribution =
 
 age_distribution
 ```
+
+```{r}
+fuel_distribution = 
+  ggplot(neighbor_data, aes(x= fuel_used_for_cooking_percent_wood_dung)) +
+  geom_histogram(color = "black")
+
+fuel_distribution
+```
+```{r}
+public_distribution = 
+  ggplot(neighbor_data, aes(x= percent_public_source)) +
+  geom_histogram(color = "black")
+
+public_distribution
+```
+```{r}
+toilet_distribution = 
+  ggplot(neighbor_data, aes(x= percent_private_toilet)) +
+  geom_histogram(color = "black")
+
+toilet_distribution
+```
+```{r}
+employment_distribution = 
+  ggplot(neighbor_data, aes(x= percent_employed)) +
+  geom_histogram(color = "black")
+
+employment_distribution
+```
+```{r}
+educ_distribution = 
+  ggplot(neighbor_data, aes(x= percent_without_hs_education)) +
+  geom_histogram(color = "black")
+
+educ_distribution
+```
+```{r}
+marital_distribution = 
+  ggplot(neighbor_data, aes(x= percent_marital_status)) +
+  geom_histogram(color = "black")
+
+marital_distribution
+```
+```{r}
+caste_distribution = 
+  ggplot(neighbor_data, aes(x= percent_caste)) +
+  geom_histogram(color = "black")
+
+caste_distribution
+```
+
