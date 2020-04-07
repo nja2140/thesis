@@ -1,0 +1,42 @@
+---
+title: "Merging Final Dataset"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(data.table)
+```
+
+Categorizing BMI, FBG
+```{r}
+outcome_two_data=
+  outcome_data %>% 
+  mutate(bmi_cat = ifelse(bmi >=25, "obese", 
+                          ifelse(bmi>=23 & bmi<=24.9, "overweight",
+                          "normal")),
+         fbg_cat = ifelse(fbg >=126, "diabetes", 
+                          ifelse(fbg>=110 & fbg<=125.9, "prediabetes",
+                          "normal")),
+         hyp_cat = ifelse(sbp <120 | dbp<80, "normal", 
+                          ifelse(sbp>=120 & fbg<=155.9 | dbp>=90 & fbg<=99.9, "hypertensive",
+                          "hypertension"))
+         )
+outcome_two_data
+```
+Merge outcome_two_data and neighbor_data
+
+```{r}
+total= merge(neighbor_data, outcome_two_data, by="ceb") %>% 
+  mutate(bmi_cat = factor(bmi_cat, levels = c("normal", "overweight", "obese")),
+         fbg_cat = factor(fbg_cat, levels = c("normal", "prediabetes", "diabetes")),
+         hyp_cat = factor(hyp_cat, levels = c("normal", "hypertensive", "hypertension"))
+         )
+
+head(total)
+```
+
+
+
