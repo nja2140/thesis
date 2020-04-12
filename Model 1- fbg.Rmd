@@ -1,0 +1,42 @@
+---
+title: 'Model 1: Fbg'
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(data.table)
+library(nnet)
+```
+
+Running the crude model
+```{r}
+crude_fbg = 
+  multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste, data=total)
+
+summary(crude_fbg)
+```
+Running the model with age as a confounder
+```{r}
+age_fbg = 
+  multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + median_age, data=total)
+
+summary(age_fbg)
+```
+Running the model with sex as a confounder
+```{r}
+sex_fbg = 
+  multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + percent_female, data=total)
+
+summary(sex_fbg)
+```
+Running the model with marital status as a confounder
+```{r}
+marital_fbg = 
+  multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + percent_marital_status, data=total)
+
+summary(marital_fbg)
+```
+
