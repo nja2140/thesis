@@ -8,9 +8,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 library(tidyverse)
 library(dplyr)
-library(ggplot2)
-library(tidyverse)
-library(dplyr)
 library(data.table)
 ```
 Loading the exposure data
