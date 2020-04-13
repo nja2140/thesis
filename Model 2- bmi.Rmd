@@ -5,39 +5,173 @@ output: github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
 library(tidyverse)
 library(dplyr)
 library(data.table)
 library(nnet)
 ```
+
+```{r, include=FALSE}
+neighbor_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 2) %>%
+  janitor::clean_names() %>% 
+  select(-c(x1)) %>% 
+    mutate(ceb = as.numeric(ceb),
+           median_age = as.numeric(median_age),
+           percent_female = as.numeric(percent_female),
+           fuel_used_for_cooking_percent_wood_dung = as.numeric(fuel_used_for_cooking_percent_wood_dung),
+           percent_public_source = as.numeric(percent_public_source),
+           percent_private_toilet = as.numeric(percent_private_toilet),
+           percent_employed = as.numeric(percent_employed),
+           percent_without_hs_education = as.numeric(percent_without_hs_education),
+           percent_marital_status = as.numeric(percent_marital_status),
+           percent_caste = as.numeric(percent_caste)
+         ) 
+
+outcome_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 3) %>%
+  separate(sbp, into = c("sbp", "sbp_sd")) %>% 
+  separate(dbp, into = c("dbp", "dbp_sd")) %>% 
+  separate(  bmi, into = c("bmi", "bmi_sd")) %>% 
+  janitor::clean_names() %>% 
+  mutate(ceb = as.numeric(ceb),
+         fbg = as.numeric(fbg),
+         fbg_sd = as.numeric(fbg_sd),
+         sbp = as.numeric(sbp),
+         sbp_sd = as.numeric(sbp_sd),
+         dbp = as.numeric(dbp),
+         dbp_sd = as.numeric(dbp_sd),
+         bmi = as.numeric(bmi),
+         bmi_sd = as.numeric(bmi_sd),
+         hypertension = as.numeric(hypertension),
+         diabetes = as.numeric(diabetes)
+         ) %>% 
+  select(ceb, fbg, sbp, dbp, bmi)
+
+outcome_two_data=
+  outcome_data %>% 
+  mutate(bmi_cat = ifelse(bmi >=25, "obese", 
+                          ifelse(bmi>=23 & bmi<=24.9, "overweight",
+                          "normal")),
+         fbg_cat = ifelse(fbg >=126, "diabetes", 
+                          ifelse(fbg>=110 & fbg<=125.9, "prediabetes",
+                          "normal")),
+         hyp_cat = ifelse(sbp <120 | dbp<80, "normal", 
+                          ifelse(sbp>=120 & fbg<=155.9 | dbp>=90 & fbg<=99.9, "hypertensive",
+                          "hypertension"))
+         )
+
+total= merge(neighbor_data, outcome_two_data, by="ceb") %>% 
+  mutate(bmi_cat = factor(bmi_cat, levels = c("normal", "overweight", "obese")),
+         fbg_cat = factor(fbg_cat, levels = c("normal", "prediabetes", "diabetes")),
+         hyp_cat = factor(hyp_cat, levels = c("normal", "hypertensive", "hypertension"))
+         )
+```
+
 Running the crude model
 ```{r}
 crude_bmi = 
   multinom(bmi_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste, data=total)
 
 summary(crude_bmi)
+
+crude_model=
+  crude_bmi %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+crude_or=
+  exp(coef(crude_bmi)) %>% 
+  knitr::kable(digits = 3)
 ```
+```{r}
+crude_model
+```
+
+```{r}
+crude_or
+```
+
+
+
 Running the model with age as a confounder
 ```{r}
 age_bmi = 
   multinom(bmi_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + median_age, data=total)
 
 summary(age_bmi)
+
+age_model=
+  age_bmi %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+age_or=
+  exp(coef(age_bmi)) %>% 
+  knitr::kable(digits = 3)
 ```
+
+```{r}
+age_model
+```
+
+```{r}
+age_or
+```
+
+
+
 Running the model with sex as a confounder
 ```{r}
 sex_bmi = 
   multinom(bmi_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + percent_female, data=total)
 
 summary(sex_bmi)
+
+sex_model=
+  sex_bmi %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+sex_or=
+  exp(coef(sex_bmi)) %>% 
+  knitr::kable(digits = 3)
 ```
+
+```{r}
+sex_model
+```
+```{r}
+sex_or
+```
+
+
+
 Running the model with marital status as a confounder
 ```{r}
 marital_bmi = 
   multinom(bmi_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + percent_marital_status, data=total)
 
 summary(marital_bmi)
+
+marital_model=
+  marital_bmi %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+marital_or=
+  exp(coef(marital_bmi)) %>% 
+  knitr::kable(digits = 3)
 ```
+```{r}
+marital_model
+```
+
+```{r}
+marital_or
+```
+
 
 
 
