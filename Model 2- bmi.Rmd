@@ -1,6 +1,6 @@
 ---
 title: 'Model 2: BMI'
-output: github_document
+output: word_document
 ---
 
 ```{r setup, include=FALSE}
