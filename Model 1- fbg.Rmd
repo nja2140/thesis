@@ -1,6 +1,6 @@
 ---
 title: 'Model 1: Fbg'
-output: github_document
+output: word_document
 ---
 
 ```{r setup, include=FALSE}
@@ -74,8 +74,25 @@ Running the crude model
 crude_fbg = 
   multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste, data=total)
 
-crude_fbg 
+crude_model=
+  crude_fbg %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+crude_or=
+  exp(coef(crude_fbg)) %>% 
+  knitr::kable(digits = 3)
 ```
+
+```{r}
+crude_model
+```
+
+```{r}
+crude_or
+```
+
+
 Running the model with age as a confounder
 
 ```{r}
@@ -84,12 +101,23 @@ age_fbg =
 
 summary(age_fbg)
 
-age_fbg %>% 
+age_model=
+  age_fbg %>% 
   broom::tidy() %>% 
-  mutate(OR = exp(coef(age_fbg))) %>% 
+  knitr::kable(digits = 3)
+
+age_or=
+  exp(coef(age_fbg)) %>% 
   knitr::kable(digits = 3)
 ```
 
+```{r}
+age_model
+```
+
+```{r}
+age_or
+```
 
 
 Running the model with sex as a confounder
@@ -98,12 +126,49 @@ sex_fbg =
   multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + percent_female, data=total)
 
 summary(sex_fbg)
+
+sex_model=
+  sex_fbg %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+sex_or=
+  exp(coef(sex_fbg)) %>% 
+  knitr::kable(digits = 3)
 ```
+
+```{r}
+sex_model
+```
+
+```{r}
+sex_or
+```
+
+
+
 Running the model with marital status as a confounder
 ```{r}
 marital_fbg = 
   multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + percent_marital_status, data=total)
 
 summary(marital_fbg)
+
+marital_model=
+  marital_fbg %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+marital_or=
+  exp(coef(age_fbg)) %>% 
+  knitr::kable(digits = 3)
+```
+
+```{r}
+marital_model
+```
+
+```{r}
+marital_or
 ```
 

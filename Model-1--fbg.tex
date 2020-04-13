@@ -1,0 +1,445 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Model 1: Fbg},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Model 1: Fbg}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+Running the crude model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crude_fbg =}\StringTok{ }
+\StringTok{  }\KeywordTok{multinom}\NormalTok{(fbg_cat }\OperatorTok{~}\StringTok{ }\NormalTok{fuel_used_for_cooking_percent_wood_dung }\OperatorTok{+}\StringTok{ }\NormalTok{percent_public_source }\OperatorTok{+}\StringTok{ }\NormalTok{percent_private_toilet }\OperatorTok{+}\StringTok{ }\NormalTok{percent_employed }\OperatorTok{+}\StringTok{ }\NormalTok{percent_without_hs_education }\OperatorTok{+}\StringTok{ }\NormalTok{percent_caste, }\DataTypeTok{data=}\NormalTok{total)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # weights:  24 (14 variable)
+## initial  value 147.214047 
+## iter  10 value 126.004019
+## iter  20 value 120.958058
+## iter  30 value 120.478616
+## iter  40 value 117.231716
+## iter  50 value 116.951601
+## final  value 116.946268 
+## converged
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crude_fbg }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{broom}\OperatorTok{::}\KeywordTok{tidy}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 14 x 6
+##    y.level    term                     estimate std.error statistic p.value
+##    <chr>      <chr>                       <dbl>     <dbl>     <dbl>   <dbl>
+##  1 prediabet~ (Intercept)               7.12e+0   1.51       1.30    0.194 
+##  2 prediabet~ fuel_used_for_cooking_~   2.41e+2   6.80       0.807   0.420 
+##  3 prediabet~ percent_public_source     2.18e-1   1.23      -1.24    0.216 
+##  4 prediabet~ percent_private_toilet    1.00e+0   0.00591    0.646   0.518 
+##  5 prediabet~ percent_employed          1.71e-1   3.12      -0.566   0.572 
+##  6 prediabet~ percent_without_hs_edu~   3.33e-1   1.67      -0.659   0.510 
+##  7 prediabet~ percent_caste             2.12e-1   0.959     -1.61    0.106 
+##  8 diabetes   (Intercept)               8.61e+0   2.05       1.05    0.294 
+##  9 diabetes   fuel_used_for_cooking_~   2.77e+0  17.6        0.0580  0.954 
+## 10 diabetes   percent_public_source     6.13e-5   4.65      -2.08    0.0372
+## 11 diabetes   percent_private_toilet    1.00e+0   0.00724    0.345   0.730 
+## 12 diabetes   percent_employed          1.50e-2   4.18      -1.00    0.315 
+## 13 diabetes   percent_without_hs_edu~   6.47e-1   2.86      -0.153   0.879 
+## 14 diabetes   percent_caste             9.73e-1   0.319     -0.0871  0.931
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(crude_fbg))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             (Intercept) fuel_used_for_cooking_percent_wood_dung
+## prediabetes    7.115966                                240.8996
+## diabetes       8.611428                                  2.7699
+##             percent_public_source percent_private_toilet percent_employed
+## prediabetes          2.180622e-01               1.003827       0.17120420
+## diabetes             6.126047e-05               1.002501       0.01498024
+##             percent_without_hs_education percent_caste
+## prediabetes                    0.3333781     0.2124269
+## diabetes                       0.6467562     0.9725694
+\end{verbatim}
+
+Running the model with age as a confounder
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{age_fbg =}\StringTok{ }
+\StringTok{  }\KeywordTok{multinom}\NormalTok{(fbg_cat }\OperatorTok{~}\StringTok{ }\NormalTok{fuel_used_for_cooking_percent_wood_dung }\OperatorTok{+}\StringTok{ }\NormalTok{percent_public_source }\OperatorTok{+}\StringTok{ }\NormalTok{percent_private_toilet }\OperatorTok{+}\StringTok{ }\NormalTok{percent_employed }\OperatorTok{+}\StringTok{ }\NormalTok{percent_without_hs_education }\OperatorTok{+}\StringTok{ }\NormalTok{percent_caste }\OperatorTok{+}\StringTok{ }\NormalTok{median_age, }\DataTypeTok{data=}\NormalTok{total)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # weights:  27 (16 variable)
+## initial  value 147.214047 
+## iter  10 value 120.083806
+## iter  20 value 113.192095
+## iter  30 value 112.331907
+## iter  40 value 111.207763
+## iter  50 value 108.979685
+## iter  60 value 108.947972
+## final  value 108.946939 
+## converged
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(age_fbg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## multinom(formula = fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + 
+##     percent_public_source + percent_private_toilet + percent_employed + 
+##     percent_without_hs_education + percent_caste + median_age, 
+##     data = total)
+## 
+## Coefficients:
+##             (Intercept) fuel_used_for_cooking_percent_wood_dung
+## prediabetes   -9.537129                               4.5782739
+## diabetes     -14.671208                              -0.1011297
+##             percent_public_source percent_private_toilet percent_employed
+## prediabetes             -1.549981           -0.001554108         1.977762
+## diabetes                -9.015487           -0.004153350         2.375135
+##             percent_without_hs_education percent_caste median_age
+## prediabetes                     1.086844    -0.9767290  0.2106869
+## diabetes                        3.659797    -0.0101799  0.2914880
+## 
+## Std. Errors:
+##             (Intercept) fuel_used_for_cooking_percent_wood_dung
+## prediabetes    3.908210                                7.360951
+## diabetes       5.562783                               16.975470
+##             percent_public_source percent_private_toilet percent_employed
+## prediabetes              1.248331            0.006573568         3.418176
+## diabetes                 4.642188            0.008067217         4.702471
+##             percent_without_hs_education percent_caste median_age
+## prediabetes                     1.904495     0.9919181 0.06677395
+## diabetes                        3.209016     0.1491680 0.08847521
+## 
+## Residual Deviance: 217.8939 
+## AIC: 249.8939
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{age_fbg }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{broom}\OperatorTok{::}\KeywordTok{tidy}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{OR =} \KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(age_fbg))) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in format.data.frame(x = structure(list(estimate = c(0, 97.346, :
+## corrupt data frame: columns will be truncated or padded with NAs
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in `[<-.data.frame`(`*tmp*`, , isn, value = structure(list(estimate
+## = structure(c("0.000", : provided 12 variables to replace 5 variables
+\end{verbatim}
+
+\begin{longtable}[]{@{}llrrrrr@{}}
+\toprule
+y.level & term & estimate & std.error & statistic & p.value &
+OR\tabularnewline
+\midrule
+\endhead
+prediabetes & (Intercept) & 0.000 & 3.908 & -2.440 & 0.015 &
+7.212363e-05\tabularnewline
+prediabetes & fuel\_used\_for\_cooking\_percent\_wood\_dung & 97.346 &
+7.361 & 0.622 & 0.534 & 4.249869e-07\tabularnewline
+prediabetes & percent\_public\_source & 0.212 & 1.248 & -1.242 & 0.214 &
+NA\tabularnewline
+prediabetes & percent\_private\_toilet & 0.998 & 0.007 & -0.236 & 0.813
+& NA\tabularnewline
+prediabetes & percent\_employed & 7.227 & 3.418 & 0.579 & 0.563 &
+NA\tabularnewline
+prediabetes & percent\_without\_hs\_education & 2.965 & 1.904 & 0.571 &
+0.568 & NA\tabularnewline
+prediabetes & percent\_caste & 0.377 & 0.992 & -0.985 & 0.325 &
+NA\tabularnewline
+prediabetes & median\_age & 1.235 & 0.067 & 3.155 & 0.002 &
+NA\tabularnewline
+diabetes & (Intercept) & 0.000 & 5.563 & -2.637 & 0.008 &
+NA\tabularnewline
+diabetes & fuel\_used\_for\_cooking\_percent\_wood\_dung & 0.904 &
+16.975 & -0.006 & 0.995 & NA\tabularnewline
+diabetes & percent\_public\_source & 0.000 & 4.642 & -1.942 & 0.052 &
+NA\tabularnewline
+diabetes & percent\_private\_toilet & 0.996 & 0.008 & -0.515 & 0.607 &
+NA\tabularnewline
+diabetes & percent\_employed & 10.752 & 4.702 & 0.505 & 0.614 &
+NA\tabularnewline
+diabetes & percent\_without\_hs\_education & 38.853 & 3.209 & 1.140 &
+0.254 & NA\tabularnewline
+diabetes & percent\_caste & 0.990 & 0.149 & -0.068 & 0.946 &
+NA\tabularnewline
+diabetes & median\_age & 1.338 & 0.088 & 3.295 & 0.001 &
+NA\tabularnewline
+\bottomrule
+\end{longtable}
+
+Running the model with sex as a confounder
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sex_fbg =}\StringTok{ }
+\StringTok{  }\KeywordTok{multinom}\NormalTok{(fbg_cat }\OperatorTok{~}\StringTok{ }\NormalTok{fuel_used_for_cooking_percent_wood_dung }\OperatorTok{+}\StringTok{ }\NormalTok{percent_public_source }\OperatorTok{+}\StringTok{ }\NormalTok{percent_private_toilet }\OperatorTok{+}\StringTok{ }\NormalTok{percent_employed }\OperatorTok{+}\StringTok{ }\NormalTok{percent_without_hs_education }\OperatorTok{+}\StringTok{ }\NormalTok{percent_caste }\OperatorTok{+}\StringTok{ }\NormalTok{percent_female, }\DataTypeTok{data=}\NormalTok{total)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # weights:  27 (16 variable)
+## initial  value 147.214047 
+## iter  10 value 125.132550
+## iter  20 value 120.689634
+## iter  30 value 119.663226
+## iter  40 value 118.460834
+## iter  50 value 115.640491
+## iter  60 value 115.430617
+## final  value 115.256130 
+## converged
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(sex_fbg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## multinom(formula = fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + 
+##     percent_public_source + percent_private_toilet + percent_employed + 
+##     percent_without_hs_education + percent_caste + percent_female, 
+##     data = total)
+## 
+## Coefficients:
+##             (Intercept) fuel_used_for_cooking_percent_wood_dung
+## prediabetes   -8.788918                                4.205755
+## diabetes      -8.348199                                1.385184
+##             percent_public_source percent_private_toilet percent_employed
+## prediabetes             -1.367466            0.004749212       -0.9709633
+## diabetes               -10.111438            0.003015511       -2.8511089
+##             percent_without_hs_education percent_caste percent_female
+## prediabetes                   -0.6428292   -1.69374532       15.38484
+## diabetes                      -0.1700545   -0.04084794       14.70183
+## 
+## Std. Errors:
+##             (Intercept) fuel_used_for_cooking_percent_wood_dung
+## prediabetes    7.809583                                6.766617
+## diabetes       7.978979                               16.918901
+##             percent_public_source percent_private_toilet percent_employed
+## prediabetes              1.237316            0.005988480         3.116130
+## diabetes                 4.761686            0.007291984         4.157151
+##             percent_without_hs_education percent_caste percent_female
+## prediabetes                     1.701773     0.9787261       11.23542
+## diabetes                        2.889023     0.5833245       11.33858
+## 
+## Residual Deviance: 230.5123 
+## AIC: 262.5123
+\end{verbatim}
+
+Running the model with marital status as a confounder
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{marital_fbg =}\StringTok{ }
+\StringTok{  }\KeywordTok{multinom}\NormalTok{(fbg_cat }\OperatorTok{~}\StringTok{ }\NormalTok{fuel_used_for_cooking_percent_wood_dung }\OperatorTok{+}\StringTok{ }\NormalTok{percent_public_source }\OperatorTok{+}\StringTok{ }\NormalTok{percent_private_toilet }\OperatorTok{+}\StringTok{ }\NormalTok{percent_employed }\OperatorTok{+}\StringTok{ }\NormalTok{percent_without_hs_education }\OperatorTok{+}\StringTok{ }\NormalTok{percent_caste }\OperatorTok{+}\StringTok{ }\NormalTok{percent_marital_status, }\DataTypeTok{data=}\NormalTok{total)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # weights:  27 (16 variable)
+## initial  value 147.214047 
+## iter  10 value 130.781550
+## iter  20 value 121.136652
+## iter  30 value 120.780273
+## iter  40 value 119.029619
+## iter  50 value 115.954327
+## iter  60 value 115.903704
+## final  value 115.902660 
+## converged
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(marital_fbg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## multinom(formula = fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + 
+##     percent_public_source + percent_private_toilet + percent_employed + 
+##     percent_without_hs_education + percent_caste + percent_marital_status, 
+##     data = total)
+## 
+## Coefficients:
+##             (Intercept) fuel_used_for_cooking_percent_wood_dung
+## prediabetes    1.986113                                5.560182
+## diabetes       5.313670                                2.599120
+##             percent_public_source percent_private_toilet percent_employed
+## prediabetes             -1.521497            0.003771747        -1.801471
+## diabetes                -9.472381            0.002049244        -3.745794
+##             percent_without_hs_education percent_caste
+## prediabetes                   -1.1303649   -1.53230555
+## diabetes                      -0.9516206   -0.03719445
+##             percent_marital_status
+## prediabetes          -0.0009918383
+## diabetes             -3.7319658599
+## 
+## Std. Errors:
+##             (Intercept) fuel_used_for_cooking_percent_wood_dung
+## prediabetes    1.514304                                6.789168
+## diabetes       3.925159                               17.689565
+##             percent_public_source percent_private_toilet percent_employed
+## prediabetes              1.232123            0.005923699         3.155483
+## diabetes                 4.772094            0.007290674         4.201607
+##             percent_without_hs_education percent_caste
+## prediabetes                     1.703190     0.9607122
+## diabetes                        2.942061     0.4092454
+##             percent_marital_status
+## prediabetes             0.01365773
+## diabetes                3.88993918
+## 
+## Residual Deviance: 231.8053 
+## AIC: 263.8053
+\end{verbatim}
+
+
+\end{document}
