@@ -16,15 +16,24 @@ Running the crude model
 crude_fbg = 
   multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste, data=total)
 
-summary(crude_fbg)
+crude_fbg 
 ```
 Running the model with age as a confounder
+
 ```{r}
 age_fbg = 
   multinom(fbg_cat ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + median_age, data=total)
 
 summary(age_fbg)
+
+age_fbg %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(coef(age_fbg))) %>% 
+  knitr::kable(digits = 3)
 ```
+
+
+
 Running the model with sex as a confounder
 ```{r}
 sex_fbg = 
