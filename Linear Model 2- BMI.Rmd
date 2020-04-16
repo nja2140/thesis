@@ -1,0 +1,200 @@
+---
+title: "Linear Model 2: BMI"
+author: "Naina Ahuja"
+date: "4/15/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(tidyverse)
+library(dplyr)
+library(data.table)
+library(nnet)
+library(broom)
+```
+
+Loading in the data:
+```{r, include=FALSE}
+neighbor_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 2) %>%
+  janitor::clean_names() %>% 
+  select(-c(x1)) %>% 
+    mutate(ceb = as.numeric(ceb),
+           median_age = as.numeric(median_age),
+           percent_female = as.numeric(percent_female),
+           fuel_used_for_cooking_percent_wood_dung = as.numeric(fuel_used_for_cooking_percent_wood_dung),
+           percent_public_source = as.numeric(percent_public_source),
+           percent_private_toilet = as.numeric(percent_private_toilet),
+           percent_employed = as.numeric(percent_employed),
+           percent_without_hs_education = as.numeric(percent_without_hs_education),
+           percent_marital_status = as.numeric(percent_marital_status),
+           percent_caste = as.numeric(percent_caste)
+         ) 
+
+outcome_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 3) %>%
+  separate(sbp, into = c("sbp", "sbp_sd")) %>% 
+  separate(dbp, into = c("dbp", "dbp_sd")) %>% 
+  separate(  bmi, into = c("bmi", "bmi_sd")) %>% 
+  janitor::clean_names() %>% 
+  mutate(ceb = as.numeric(ceb),
+         fbg = as.numeric(fbg),
+         fbg_sd = as.numeric(fbg_sd),
+         sbp = as.numeric(sbp),
+         sbp_sd = as.numeric(sbp_sd),
+         dbp = as.numeric(dbp),
+         dbp_sd = as.numeric(dbp_sd),
+         bmi = as.numeric(bmi),
+         bmi_sd = as.numeric(bmi_sd),
+         hypertension = as.numeric(hypertension),
+         diabetes = as.numeric(diabetes)
+         ) %>% 
+  select(ceb, fbg, sbp, dbp, bmi)
+
+total= merge(neighbor_data, outcome_data, by="ceb")
+```
+
+Crude:
+```{r, echo=FALSE}
+bmi_crude=
+  lm(bmi ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste, data=total)
+
+summary(bmi_crude)
+summary(bmi_crude)$coef
+coef(bmi_crude)
+fitted.values(bmi_crude)
+
+bmi_crude %>% 
+  broom::glance()
+
+bmi_crude %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  knitr::kable(digits = 3)
+
+model_bmi_crude_metrics =
+  augment(bmi_crude) 
+
+model_bmi_crude_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_crude)
+```
+
+Age as a confounder:
+```{r, echo=FALSE}
+bmi_age=
+  lm(bmi ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + median_age, data=total)
+
+summary(bmi_age)
+summary(bmi_age)$coef
+coef(bmi_age)
+fitted.values(bmi_age)
+
+bmi_age %>% 
+  broom::glance()
+
+bmi_age %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  knitr::kable(digits = 3)
+
+model_bmi_age_metrics =
+  augment(bmi_age) 
+
+model_bmi_age_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_age)
+```
+
+Gender as a confounder:
+
+```{r, echo=FALSE}
+bmi_gender=
+  lm(bmi ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + percent_female, data=total)
+
+summary(bmi_gender)
+summary(bmi_gender)$coef
+coef(bmi_gender)
+fitted.values(bmi_gender)
+
+bmi_gender %>% 
+  broom::glance()
+
+bmi_gender %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  knitr::kable(digits = 3)
+
+model_bmi_gender_metrics =
+  augment(bmi_gender) 
+
+model_bmi_gender_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_gender)
+```
+
+Marital status as a confounder:
+
+```{r, echo=FALSE}
+bmi_marital=
+  lm(bmi ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + percent_marital_status, data=total)
+
+summary(bmi_marital)
+summary(bmi_marital)$coef
+coef(bmi_marital)
+fitted.values(bmi_marital)
+
+bmi_marital %>% 
+  broom::glance()
+
+bmi_marital %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  knitr::kable(digits = 3)
+
+model_bmi_marital_metrics =
+  augment(bmi_marital) 
+
+model_bmi_marital_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_marital)
+```
+
+Full model:
+```{r, echo=FALSE}
+bmi_full=
+  lm(bmi ~ fuel_used_for_cooking_percent_wood_dung + percent_public_source + percent_private_toilet + percent_employed + percent_without_hs_education + percent_caste + median_age + percent_female + percent_marital_status, data=total)
+
+summary(bmi_full)
+summary(bmi_full)$coef
+coef(bmi_full)
+fitted.values(bmi_full)
+
+bmi_full %>% 
+  broom::glance()
+
+bmi_full %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  knitr::kable(digits = 3)
+
+model_bmi_full_metrics =
+  augment(bmi_full) 
+
+model_bmi_full_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_full)
+```
+
