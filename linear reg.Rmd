@@ -72,6 +72,15 @@ fbg_crude %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_fbg_crude_metrics =
+  augment(fbg_crude) 
+
+model_fbg_crude_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(fbg_crude)
 ```
 
 Age as a confounder:
@@ -91,6 +100,15 @@ fbg_age %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_fbg_age_metrics =
+  augment(fbg_age) 
+
+model_fbg_age_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(fbg_age)
 ```
 
 Gender as a confounder:
@@ -111,6 +129,15 @@ fbg_gender %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_fbg_gender_metrics =
+  augment(fbg_gender) 
+
+model_fbg_gender_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(fbg_gender)
 ```
 
 Marital status as a confounder:
@@ -131,6 +158,15 @@ fbg_marital %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_fbg_marital_metrics =
+  augment(fbg_marital) 
+
+model_fbg_marital_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(fbg_marital)
 ```
 
 Full model:
@@ -150,6 +186,15 @@ fbg_full %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_fbg_full_metrics =
+  augment(fbg_full) 
+
+model_fbg_full_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(fbg_full)
 ```
 
 Model 2: BMI
@@ -171,6 +216,15 @@ bmi_crude %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_bmi_crude_metrics =
+  augment(bmi_crude) 
+
+model_bmi_crude_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_crude)
 ```
 
 Age as a confounder:
@@ -190,6 +244,15 @@ bmi_age %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_bmi_age_metrics =
+  augment(bmi_age) 
+
+model_bmi_age_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_age)
 ```
 
 Gender as a confounder:
@@ -210,6 +273,15 @@ bmi_gender %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_bmi_gender_metrics =
+  augment(bmi_gender) 
+
+model_bmi_gender_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_gender)
 ```
 
 Marital status as a confounder:
@@ -230,6 +302,15 @@ bmi_marital %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_bmi_marital_metrics =
+  augment(bmi_marital) 
+
+model_bmi_marital_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_marital)
 ```
 
 Full model:
@@ -249,6 +330,15 @@ bmi_full %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_bmi_full_metrics =
+  augment(bmi_full) 
+
+model_bmi_full_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(bmi_full)
 ```
 
 Model 3: Systolic Blood Pressure
@@ -270,6 +360,15 @@ sbp_crude %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_sbp_crude_metrics =
+  augment(sbp_crude) 
+
+model_sbp_crude_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(sbp_crude)
 ```
 
 Age as a confounder:
@@ -289,6 +388,15 @@ sbp_age %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_sbp_age_metrics =
+  augment(sbp_age) 
+
+model_sbp_age_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(sbp_age)
 ```
 
 Gender as a confounder:
@@ -309,6 +417,15 @@ sbp_gender %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_sbp_gender_metrics =
+  augment(sbp_gender) 
+
+model_sbp_gender_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(sbp_gender)
 ```
 
 Marital status as a confounder:
@@ -329,6 +446,15 @@ sbp_marital %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_sbp_marital_metrics =
+  augment(sbp_marital) 
+
+model_sbp_marital_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(sbp_marital)
 ```
 
 Full model:
@@ -348,6 +474,15 @@ sbp_full %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_sbp_full_metrics =
+  augment(sbp_full) 
+
+model_sbp_full_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(sbp_full)
 ```
 
 Model 4: Diastolic Blood Pressure
@@ -369,6 +504,15 @@ dbp_crude %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_dbp_crude_metrics =
+  augment(dbp_crude) 
+
+model_dbp_crude_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(dbp_crude)
 ```
 
 Age as a confounder:
@@ -388,6 +532,15 @@ dbp_age %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_dbp_age_metrics =
+  augment(dbp_age) 
+
+model_dbp_age_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(dbp_age)
 ```
 
 Gender as a confounder:
@@ -408,6 +561,15 @@ dbp_gender %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_dbp_gender_metrics =
+  augment(dbp_gender) 
+
+model_dbp_gender_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(dbp_gender)
 ```
 
 Marital status as a confounder:
@@ -428,6 +590,15 @@ dbp_marital %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_dbp_marital_metrics =
+  augment(dbp_marital) 
+
+model_dbp_marital_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(dbp_marital)
 ```
 
 Full model:
@@ -447,4 +618,13 @@ dbp_full %>%
   broom::tidy() %>% 
   select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
+
+model_dbp_full_metrics =
+  augment(dbp_full) 
+
+model_dbp_full_metrics %>% 
+  knitr::kable()
+
+par(mfrow = c(2, 2))
+plot(dbp_full)
 ```
