@@ -1,0 +1,281 @@
+---
+title: 'Linear Regression: Water Source'
+author: "Naina Ahuja"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(tidyverse)
+library(dplyr)
+library(data.table)
+library(nnet)
+library(broom)
+library(spdep)
+```
+
+Loading in the data:
+```{r, include=FALSE}
+neighbor_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 2) %>%
+  janitor::clean_names() %>% 
+  select(-c(x1)) %>% 
+    mutate(ceb = as.numeric(ceb),
+           median_age = as.numeric(median_age),
+           percent_female = as.numeric(percent_female),
+           fuel_used_for_cooking_percent_wood_dung = as.numeric(fuel_used_for_cooking_percent_wood_dung),
+           percent_public_source = as.numeric(percent_public_source),
+           percent_private_toilet = as.numeric(percent_private_toilet),
+           percent_employed = as.numeric(percent_employed),
+           percent_without_hs_education = as.numeric(percent_without_hs_education),
+           percent_marital_status = as.numeric(percent_marital_status),
+           percent_caste = as.numeric(percent_caste)
+         ) 
+
+outcome_data = 
+  read_excel("./Data/temp_data.xlsx", sheet = 3) %>%
+  separate(sbp, into = c("sbp", "sbp_sd")) %>% 
+  separate(dbp, into = c("dbp", "dbp_sd")) %>% 
+  separate(  bmi, into = c("bmi", "bmi_sd")) %>% 
+  janitor::clean_names() %>% 
+  mutate(ceb = as.numeric(ceb),
+         fbg = as.numeric(fbg),
+         fbg_sd = as.numeric(fbg_sd),
+         sbp = as.numeric(sbp),
+         sbp_sd = as.numeric(sbp_sd),
+         dbp = as.numeric(dbp),
+         dbp_sd = as.numeric(dbp_sd),
+         bmi = as.numeric(bmi),
+         bmi_sd = as.numeric(bmi_sd),
+         hypertension = as.numeric(hypertension),
+         diabetes = as.numeric(diabetes)
+         ) %>% 
+  select(ceb, fbg, sbp, dbp, bmi)
+
+total= merge(neighbor_data, outcome_data, by="ceb")
+```
+
+FBG Model Selection:
+
+```{r}
+fbg_water_full=
+  lm(fbg ~ percent_public_source + median_age + percent_female + percent_without_hs_education + percent_marital_status, data=total)
+
+summary(fbg_water_full)
+summary(fbg_water_full)$coef
+coef(fbg_water_full)
+fitted.values(fbg_water_full)
+
+fbg_water_full %>% 
+  broom::glance()
+
+fbg_water_full %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+fbg_water_step=
+  stepAIC(fbg_water_full, direction = "both", trace = FALSE)
+
+summary(fbg_water_step)
+```
+
+FBG Confounder:
+
+```{r}
+fbg_water=
+  lm(fbg ~ percent_public_source, data = total)
+
+summary(fbg_water)
+summary(fbg_water)$coef
+coef(fbg_water)
+fitted.values(fbg_water)
+
+fbg_water %>% 
+  broom::glance()
+
+fbg_water %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+fbg_water_adj=
+  lm(fbg ~ percent_public_source + median_age + percent_female + percent_without_hs_education + percent_marital_status, data = total)
+
+summary(fbg_water_adj)
+summary(fbg_water_adj)$coef
+coef(fbg_water_adj)
+fitted.values(fbg_water_adj)
+
+fbg_water_adj %>% 
+  broom::glance()
+
+fbg_water_adj %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+```
+
+BMI Model Selection:
+```{r}
+bmi_water_full=
+  lm(bmi ~ percent_public_source + median_age + percent_female + percent_without_hs_education + percent_marital_status, data=total)
+
+summary(bmi_water_full)
+summary(bmi_water_full)$coef
+coef(bmi_water_full)
+fitted.values(bmi_water_full)
+
+bmi_water_full %>% 
+  broom::glance()
+
+bmi_water_full %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+bmi_water_step=
+  stepAIC(bmi_water_full, direction = "both", trace = FALSE)
+
+summary(bmi_water_step)
+```
+BMI Confounder:
+
+```{r}
+bmi_water=
+  lm(bmi ~ percent_public_source, data = total)
+summary(bmi_water)
+summary(bmi_water)$coef
+coef(bmi_water)
+fitted.values(bmi_water)
+
+bmi_water %>% 
+  broom::glance()
+
+bmi_water %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+bmi_water_adj=
+  lm(bmi ~ percent_public_source + median_age + percent_female + percent_without_hs_education + percent_marital_status, data = total)
+
+summary(bmi_water_adj)
+summary(bmi_water_adj)$coef
+coef(bmi_water_adj)
+fitted.values(bmi_water_adj)
+
+bmi_water_adj %>% 
+  broom::glance()
+
+bmi_water_adj %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+```
+
+SBP Model Selection:
+```{r}
+sbp_water_full=
+  lm(sbp ~ percent_public_source + median_age + percent_female + percent_without_hs_education + percent_marital_status, data=total)
+
+summary(sbp_water_full)
+summary(sbp_water_full)$coef
+coef(sbp_water_full)
+fitted.values(sbp_water_full)
+
+sbp_water_full %>% 
+  broom::glance()
+
+sbp_water_full %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+sbp_water_step=
+  stepAIC(sbp_water_full, direction = "both", trace = FALSE)
+
+summary(sbp_water_step)
+```
+SBP Confounder:
+
+```{r}
+sbp_water=
+  lm(sbp ~ percent_public_source, data = total)
+summary(sbp_water)
+summary(sbp_water)$coef
+coef(sbp_water)
+fitted.values(sbp_water)
+
+sbp_water %>% 
+  broom::glance()
+
+sbp_water %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+sbp_water_adj=
+  lm(sbp ~ percent_public_source + median_age + percent_female + percent_without_hs_education + percent_marital_status, data = total)
+
+summary(sbp_water_adj)
+summary(sbp_water_adj)$coef
+coef(sbp_water_adj)
+fitted.values(sbp_water_adj)
+
+sbp_water_adj %>% 
+  broom::glance()
+
+sbp_water_adj %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+```
+
+DBP Model Selection:
+```{r}
+dbp_water_full=
+  lm(dbp ~ percent_public_source + median_age + percent_female + percent_without_hs_education + percent_marital_status, data=total)
+
+summary(dbp_water_full)
+summary(dbp_water_full)$coef
+coef(dbp_water_full)
+fitted.values(dbp_water_full)
+
+dbp_water_full %>% 
+  broom::glance()
+
+dbp_water_full %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+dbp_water_step=
+  stepAIC(dbp_water_full, direction = "both", trace = FALSE)
+
+summary(dbp_water_step)
+```
+
+DBP Confounder:
+
+```{r}
+dbp_water=
+  lm(dbp ~ percent_public_source, data = total)
+summary(dbp_water)
+summary(dbp_water)$coef
+coef(dbp_water)
+fitted.values(dbp_water)
+
+dbp_water %>% 
+  broom::glance()
+
+dbp_water %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+
+dbp_water_adj=
+  lm(dbp ~ percent_public_source + median_age + percent_female + percent_without_hs_education + percent_marital_status, data = total)
+
+summary(dbp_water_adj)
+summary(dbp_water_adj)$coef
+coef(dbp_water_adj)
+fitted.values(dbp_water_adj)
+
+dbp_water_adj %>% 
+  broom::glance()
+
+dbp_water_adj %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+```
