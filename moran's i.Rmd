@@ -1,0 +1,120 @@
+---
+title: "Moran's I"
+author: "Naina Ahuja"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(sf)
+library(rgdal)
+library(spdep)
+```
+
+Loading in the outcomes shapefiles
+
+```{r}
+fbg_shp = 
+  st_read("/Users/nainaahuja/Documents/Columbia MPH/Thesis/Figure 1/fbg_ward/fbg_ward.shp")
+
+sbp_shp =
+  st_read("/Users/nainaahuja/Documents/Columbia MPH/Thesis/Figure 1/sbp_ward/sbp_ward.shp")
+
+dbp_shp =
+  st_read("/Users/nainaahuja/Documents/Columbia MPH/Thesis/Figure 1/dbp_ward/dbp_ward.shp")
+
+bmi_shp =
+  st_read("/Users/nainaahuja/Documents/Columbia MPH/Thesis/Figure 1/bmi_ward/bmi_ward.shp")
+```
+
+Weighting Matrix for FBG
+```{r}
+fbg_nb=
+  poly2nb(fbg_shp, queen = TRUE)
+
+head(fbg_nb)
+
+fbg_wm= 
+  nb2listw(fbg_nb, style = "W", zero.policy = TRUE)
+
+head(fbg_wm)
+
+fbg_lag=
+  lag.listw(fbg_wm, fbg_shp$fbg_mean, zero.policy = TRUE, NAOK = TRUE)
+
+head(fbg_lag)
+```
+
+Calculate global moran's I for FBG
+```{r}
+moran.test(fbg_shp$fbg_mean, fbg_wm, zero.policy = TRUE, na.action = na.exclude)
+```
+
+Weighting Matrix for SBP
+```{r}
+sbp_nb=
+  poly2nb(sbp_shp, queen = TRUE)
+
+head(sbp_nb)
+
+sbp_wm= 
+  nb2listw(sbp_nb, style = "W", zero.policy = TRUE)
+
+head(sbp_wm)
+
+sbp_lag=
+  lag.listw(sbp_wm, sbp_shp$sbp_mean, zero.policy = TRUE, NAOK = TRUE)
+
+head(sbp_lag)
+```
+
+Calculate global moran's I for SBP
+```{r}
+moran.test(sbp_shp$sbp_mean, sbp_wm, zero.policy = TRUE, na.action = na.exclude)
+```
+
+Weighting Matrix for DBP
+```{r}
+dbp_nb=
+  poly2nb(dbp_shp, queen = TRUE)
+
+head(dbp_nb)
+
+dbp_wm= 
+  nb2listw(dbp_nb, style = "W", zero.policy = TRUE)
+
+head(dbp_wm)
+
+dbp_lag=
+  lag.listw(dbp_wm, dbp_shp$dbp_mean, zero.policy = TRUE, NAOK = TRUE)
+
+head(dbp_lag)
+```
+
+Calculate global moran's I for DBP
+```{r}
+moran.test(dbp_shp$dbp_mean, dbp_wm, zero.policy = TRUE, na.action = na.exclude)
+```
+
+Weighting Matrix for BMI
+```{r}
+bmi_nb=
+  poly2nb(bmi_shp, queen = TRUE)
+
+head(bmi_nb)
+
+bmi_wm= 
+  nb2listw(bmi_nb, style = "W", zero.policy = TRUE)
+
+head(bmi_wm)
+
+bmi_lag=
+  lag.listw(bmi_wm, bmi_shp$bmi_mean, zero.policy = TRUE, NAOK = TRUE)
+
+head(bmi_lag)
+```
+
+Calculate global moran's I for DBP
+```{r}
+moran.test(bmi_shp$bmi_mean, bmi_wm, zero.policy = TRUE, na.action = na.exclude)
+```
